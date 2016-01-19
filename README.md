@@ -25,7 +25,7 @@ When you've accomplished all of the baseline requirements, please issue a PR bac
 
 ### The baseline requirements are...
 - a ruby-gemset and ruby-version.
-- a new rails 4.2.5 application.
+- a new rails application.
 - [rspec](https://github.com/rspec/rspec-rails) setup in document format (hint: use a .rspec config file and the `rspec_rails` gem)
 - [factory_girl](https://github.com/thoughtbot/factory_girl_rails) included and set up to work with rspec
 - [simplecov](https://github.com/colszowka/simplecov) for code coverage reporting
