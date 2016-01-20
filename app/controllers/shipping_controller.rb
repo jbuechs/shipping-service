@@ -35,9 +35,8 @@ class ShippingController < ApplicationController
     origin = location(params["origin"])
     package = package(params["package"])
     fedex = ActiveShipping::FedEx.new(login: ENV['FEDEX_LOGIN'], password: ENV['FEDEX_PASSWORD'], key: ENV['FEDEX_KEY'], account: ENV['FEDEX_ACCOUNT'], test: true)
-    response = fedex.find_rates(origin, destination, packages)
+    response = fedex.find_rates(origin, destination, package)
     fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
     render :json => fedex_rates
   end
-
 end
