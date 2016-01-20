@@ -6,18 +6,13 @@ class ShippingController < ApplicationController
     ActiveShipping::Location.new(loc_hash)
   end
 
-  # def destination
-  #   ActiveShipping::Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90024")
-  # end
-
   def package(package_hash)
     weight = package_hash["weight"]
     width = package_hash["width"]
     length = package_hash["length"]
     height = package_hash["height"]
     cylinder = package_hash["cylinder"]
-    # package = Package.new(weight, [length, width, height], cylinder: cylinder)
-    return ActiveShipping::Package.new(weight, [length, width, height], cylinder: cylinder)
+    return ActiveShipping::Package.new(weight, [length, width, height], cylinder: cylinder, units: :imperial)
   end
 
   def ups_rates
