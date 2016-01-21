@@ -29,10 +29,10 @@ class ShippingController < ApplicationController
     end
 
     def package(package_hash)
-      weight = package_hash["weight"]
-      width = package_hash["width"]
-      length = package_hash["length"]
-      height = package_hash["height"]
+      weight = package_hash["weight"].to_i
+      width = package_hash["width"].to_i
+      length = package_hash["length"].to_i
+      height = package_hash["height"].to_i
       cylinder = package_hash["cylinder"]
       return ActiveShipping::Package.new(weight, [length, width, height], cylinder: cylinder, units: :imperial)
     end

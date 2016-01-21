@@ -18,6 +18,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'sqlite3'
   gem 'dotenv-rails'
+  gem 'pry-rails'
 end
 
 group :production do
@@ -28,7 +29,6 @@ end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'pry-rails'
   gem 'better_errors'
   gem 'binding_of_caller'
 end
