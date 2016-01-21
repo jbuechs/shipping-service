@@ -74,3 +74,4 @@ bower.json
 
 .env
 secrets.yml
+/spec/vcr/*.yml

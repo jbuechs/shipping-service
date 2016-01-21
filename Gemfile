@@ -19,6 +19,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'dotenv-rails'
   gem 'pry-rails'
+  gem 'vcr'
 end
 
 group :production do
@@ -35,4 +36,5 @@ end
 
 group :test do
   gem 'simplecov', :require => false
+  gem 'webmock', '1.8.0'
 end

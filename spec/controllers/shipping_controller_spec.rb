@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/vcr_setup'
 
 RSpec.describe ShippingController, type: :controller do
   let(:post_params) do
@@ -31,7 +32,7 @@ RSpec.describe ShippingController, type: :controller do
   #   end
   # end
 
-  describe "POST 'ups'" do
+  describe "POST 'ups'", :vcr do
     it "is successful" do
       post :ups_rates, post_params
       expect(response.response_code).to eq 200
@@ -44,14 +45,14 @@ RSpec.describe ShippingController, type: :controller do
 
     context "the returned json object" do
       before :each do
-        post :fedex_rates, post_params
+        post :ups_rates, post_params
         @response = JSON.parse response.body
         binding.pry
       end
     end
 
     context "no rates found" do
-
+      # add error messages
     end
   end
 end
