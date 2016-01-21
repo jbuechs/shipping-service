@@ -2,18 +2,6 @@ require 'active_shipping'
 
 class ShippingController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  def location(loc_hash)
-    ActiveShipping::Location.new(loc_hash)
-  end
-
-  def package(package_hash)
-    weight = package_hash["weight"]
-    width = package_hash["width"]
-    length = package_hash["length"]
-    height = package_hash["height"]
-    cylinder = package_hash["cylinder"]
-    return ActiveShipping::Package.new(weight, [length, width, height], cylinder: cylinder, units: :imperial)
-  end
 
   def ups_rates
     destination = location(params["destination"])
@@ -34,4 +22,18 @@ class ShippingController < ApplicationController
     fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
     render :json => fedex_rates
   end
+
+  private
+    def location(loc_hash)
+      ActiveShipping::Location.new(loc_hash)
+    end
+
+    def package(package_hash)
+      weight = package_hash["weight"]
+      width = package_hash["width"]
+      length = package_hash["length"]
+      height = package_hash["height"]
+      cylinder = package_hash["cylinder"]
+      return ActiveShipping::Package.new(weight, [length, width, height], cylinder: cylinder, units: :imperial)
+    end
 end
