@@ -6,13 +6,13 @@ class ShippingController < ApplicationController
   def ups_rates
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_ACCESS_KEY'])
     ups_rates = get_rates(ups)
-    render :json => ups_rates
+    render :json => ups_rates, :status => (ups_rates.flatten.include?("error") ? 204 : 200)
   end
 
   def usps_rates
     usps = ActiveShipping::USPS.new(login: ENV['ACTIVESHIPPING_USPS_LOGIN'])
     usps_rates = get_rates(usps)
-    render :json => usps_rates
+    render :json => usps_rates, :status => (usps_rates.flatten.include?("error") ? 204 : 200)
   end
 
   private

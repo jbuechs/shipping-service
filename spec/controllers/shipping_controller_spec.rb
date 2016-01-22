@@ -1,35 +1,17 @@
 require 'rails_helper'
 require 'support/vcr_setup'
+require './spec/support/shared_tests'
 
 RSpec.describe ShippingController, type: :controller do
-  let(:post_params) do
-    { "origin" => {"country" => "US","state" => "WA","city" => "Seattle","postal_code" => "98102"},
-      "destination" => {"country" => "US","state" => "CA","city" => "Los Angeles","postal_code" => "90024"},
-      "package" => {"weight" => 10,"length" => 3,"width" => 10,"height" => 3, "cylinder" => false}
-    }
+  context "UPS delivery", :vcr do
+    it_behaves_like "a shipping carrier" do
+      let(:carrier_path) { :ups_rates }
+    end
   end
 
-  describe "POST 'ups'", :vcr do
-    it "is successful" do
-      post :ups_rates, post_params
-      expect(response.response_code).to eq 200
-    end
-
-    it "returns json" do
-      post :ups_rates, post_params
-      expect(response.header['Content-Type']).to include 'application/json'
-    end
-
-    context "the returned json object" do
-      before :each do
-        post :ups_rates, post_params
-        @response = JSON.parse response.body
-        binding.pry
-      end
-    end
-
-    context "no rates found" do
-      # add error messages
+  context "USPS delivery", :vcr do
+    it_behaves_like "a shipping carrier" do
+      let(:carrier_path) { :usps_rates }
     end
   end
 end
