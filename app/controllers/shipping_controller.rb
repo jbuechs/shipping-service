@@ -4,26 +4,26 @@ class ShippingController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def ups_rates
-    destination = location(params["destination"])
-    origin = location(params["origin"])
-    package = package(params["package"])
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_ACCESS_KEY'])
-    response = ups.find_rates(origin, destination, package)
-    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    ups_rates = get_rates(ups)
     render :json => ups_rates
   end
 
-  def fedex_rates
-    destination = location(params["destination"])
-    origin = location(params["origin"])
-    package = package(params["package"])
-    fedex = ActiveShipping::FedEx.new(login: ENV['FEDEX_LOGIN'], password: ENV['FEDEX_PASSWORD'], key: ENV['FEDEX_KEY'], account: ENV['FEDEX_ACCOUNT'], test: true)
-    response = fedex.find_rates(origin, destination, package)
-    fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-    render :json => fedex_rates
+  def usps_rates
+    usps = ActiveShipping::USPS.new(login: ENV['ACTIVESHIPPING_USPS_LOGIN'])
+    usps_rates = get_rates(usps)
+    render :json => usps_rates
   end
 
   private
+    def get_rates(carrier)
+      destination = location(params["destination"])
+      origin = location(params["origin"])
+      package = package(params["package"])
+      response = carrier.find_rates(origin, destination, package)
+      return response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    end
+
     def location(loc_hash)
       ActiveShipping::Location.new(loc_hash)
     end

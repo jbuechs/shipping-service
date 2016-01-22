@@ -8,29 +8,6 @@ RSpec.describe ShippingController, type: :controller do
       "package" => {"weight" => 10,"length" => 3,"width" => 10,"height" => 3, "cylinder" => false}
     }
   end
-  describe "POST 'fedex'", :vcr do
-    it "is successful" do
-      post :fedex_rates, post_params
-      expect(response.response_code).to eq 200
-    end
-
-    it "returns json" do
-      post :fedex_rates, post_params
-      expect(response.header['Content-Type']).to include 'application/json'
-    end
-
-    context "the returned json object" do
-      before :each do
-        post :fedex_rates, post_params
-        @response = JSON.parse response.body
-        binding.pry
-      end
-    end
-
-    context "no rates found" do
-
-    end
-  end
 
   describe "POST 'ups'", :vcr do
     it "is successful" do
