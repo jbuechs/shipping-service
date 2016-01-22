@@ -14,7 +14,8 @@ shared_examples_for "a shipping carrier" do
 
   describe "POST 'ups'" do
     context "valid params" do
-      it "is successful" do
+
+      it "is returns a 200" do
         post carrier_path, post_params
         expect(response.response_code).to eq 200
       end
@@ -23,23 +24,18 @@ shared_examples_for "a shipping carrier" do
         post carrier_path, post_params
         expect(response.header['Content-Type']).to include 'application/json'
       end
-
-      # context "the returned json object" do
-      #   before :each do
-      #     post :ups_rates, post_params
-      #     @response = JSON.parse response.body
-      #     # binding.pry
-      #   end
-      #   it "stuff about response" do
-      #
-      #   end
-      # end
     end
 
     context "invalid params" do
-      it "is not successful" do
+
+      it "returns a 204 (no content)" do
         post carrier_path, invalid_params
         expect(response.response_code).to eq 204
+      end
+      
+      it "returns json" do
+        post carrier_path, post_params
+        expect(response.header['Content-Type']).to include 'application/json'
       end
     end
   end
