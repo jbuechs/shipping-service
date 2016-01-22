@@ -10,7 +10,7 @@ class ShippingController < ApplicationController
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_ACCESS_KEY'])
     response = ups.find_rates(origin, destination, package)
     ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-    render :json => ups_rates
+    render :json => ups_rates, :status => :ok
   end
 
   def fedex_rates
@@ -20,7 +20,7 @@ class ShippingController < ApplicationController
     fedex = ActiveShipping::FedEx.new(login: ENV['FEDEX_LOGIN'], password: ENV['FEDEX_PASSWORD'], key: ENV['FEDEX_KEY'], account: ENV['FEDEX_ACCOUNT'], test: true)
     response = fedex.find_rates(origin, destination, package)
     fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-    render :json => fedex_rates
+    render :json => fedex_rates, :status => :ok
   end
 
   private
