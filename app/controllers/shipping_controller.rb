@@ -20,8 +20,12 @@ class ShippingController < ApplicationController
       destination = location(params["destination"])
       origin = location(params["origin"])
       package = package(params["package"])
-      response = carrier.find_rates(origin, destination, package)
-      return response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+      begin
+        response = carrier.find_rates(origin, destination, package)
+        return response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+      rescue ActiveShipping::ResponseError => error
+        return [["error"], [error.to_s]]
+      end
     end
 
     def location(loc_hash)
