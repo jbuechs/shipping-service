@@ -32,7 +32,8 @@ curl -H "Content-Type: application/json" -X POST --data '{ "origin" : {"country"
 HTTParty.post("https://botsy-shipping.herokuapp.com/ups_rates",
   :headers => { 'Content-Type' => 'application/json' },
   :body => {
-    "origin" => {"country" : "US","state" : "WA","city" : "Seattle","postal_code" : "98102"}, "destination" => {"country" : "US","state" : "CA","city" : "Los Angeles","postal_code" : "90024"},  
+    "origin" => {"country" : "US","state" : "WA","city" : "Seattle","postal_code" : "98102"},
+    "destination" => {"country" : "US","state" : "CA","city" : "Los Angeles","postal_code" : "90024"},  
     "package" => @{"weight" : 20,"length" : 10,"width" : 10,"height" : 10, "cylinder" : false} }.to_json)
 ```
 
